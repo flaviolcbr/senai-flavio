@@ -3,31 +3,624 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="script.js"></script>
-
-imput type="myF(p)">chamar</head><button></button>unction"
-
+    <title>Busca de CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #myDiv {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
+    <h1>Buscar Endereço por CEP</h1>
+    <input type="text" id="myInput" placeholder="Digite seu CEP" maxlength="8">
+    <button onclick="myFunction()">Buscar</button>
+    <div id="myDiv"></div>
 
-    <button onclick="myFunction()">Click me</button>
+    <script>
+        async function myFunction() {
+            const cep = document.getElementById("myInput").value;
+            const div = document.getElementById("myDiv");
+            div.innerHTML = ''; // Limpa a div antes de mostrar os resultados
+            
+            // Valida se o CEP tem 8 dígitos numéricos
+            if (!/^\d{8}$/.test(cep)) {
+                div.innerHTML = '<p class="error">Por favor, insira um CEP válido (8 dígitos).</p>';
+                return;
+            }
 
-</body>let imput = document.querySelector('input');
-div id="myDiv"></div>
-div.innerHTML = imput.value;
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
 
-async function myFunction() {
-    try {
-        const response = await fetch('https://api.example.com/data');
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
-
-myFunction = () => {
-    alert('Button clicked!');
-}
+                if (data.erro) {
+                    div.innerHTML = '<p class="error">CEP não encontrado.</p>';
+                } else {
+                    div.innerHTML = `
+                        <strong>Resultados:</strong> <br>
+                        CEP: ${data.cep} <br>
+                        Logradouro: ${data.logradouro} <br>
+                        Bairro: ${data.bairro} <br>
+                        Cidade: ${data.localidade} <br>
+                        Estado: ${data.uf}
+                    `;
+                }
+            } catch (error) {
+                div.innerHTML = '<p class="error">Ocorreu um erro ao buscar os dados. Tente novamente mais tarde.</p>';
+            }
+        }
+    </script>
+</body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f5e0; /* Cor de fundo verde claro */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50; /* Verde escuro para o título */
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #4CAF50; /* Bordas verdes */
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #4CAF50; /* Borda verde */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #388E3C; /* Verde mais escuro ao focar */
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #FFC107; /* Amarelo */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #FFB300; /* Amarelo mais escuro ao passar o mouse */
+        }
+        #myDiv {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #4CAF50; /* Bordas verdes */
+            border-radius: 5px;
+            background-color: #f9fbe7; /* Fundo verde claro para resultados */
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar Endereço por CEP</h1>
+        <input type="text" id="myInput" placeholder="Digite seu CEP" maxlength="8">
+        <button onclick="myFunction()">Buscar</button>
+        <div id="myDiv"></div>
+    </div>
+
+    <script>
+        async function myFunction() {
+            const cep = document.getElementById("myInput").value;
+            const div = document.getElementById("myDiv");
+            div.innerHTML = ''; // Limpa a div antes de mostrar os resultados
+            
+            // Valida se o CEP tem 8 dígitos numéricos
+            if (!/^\d{8}$/.test(cep)) {
+                div.innerHTML = '<p class="error">Por favor, insira um CEP válido (8 dígitos).</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+
+                if (data.erro) {
+                    div.innerHTML = '<p class="error">CEP não encontrado.</p>';
+                } else {
+                    div.innerHTML = `
+                        <strong>Resultados:</strong> <br>
+                        CEP: ${data.cep} <br>
+                        Logradouro: ${data.logradouro} <br>
+                        Bairro: ${data.bairro} <br>
+                        Cidade: ${data.localidade} <br>
+                        Estado: ${data.uf}
+                    `;
+                }
+            } catch (error) {
+                div.innerHTML = '<p class="error">Ocorreu um erro ao buscar os dados. Tente novamente mais tarde.</p>';
+            }
+        }
+    </script>
+</body>
+</html> <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f5e0; /* Cor de fundo verde claro */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50; /* Verde escuro para o título */
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #4CAF50; /* Bordas verdes */
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #4CAF50; /* Borda verde */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #388E3C; /* Verde mais escuro ao focar */
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #FFC107; /* Amarelo */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #FFB300; /* Amarelo mais escuro ao passar o mouse */
+        }
+        #myDiv {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #4CAF50; /* Bordas verdes */
+            border-radius: 5px;
+            background-color: #f9fbe7; /* Fundo verde claro para resultados */
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar Endereço por CEP</h1>
+        <input type="text" id="myInput" placeholder="Digite seu CEP" maxlength="8">
+        <button onclick="myFunction()">Buscar</button>
+        <div id="myDiv"></div>
+    </div>
+
+    <script>
+        async function myFunction() {
+            const cep = document.getElementById("myInput").value;
+            const div = document.getElementById("myDiv");
+            div.innerHTML = ''; // Limpa a div antes de mostrar os resultados
+            
+            // Valida se o CEP tem 8 dígitos numéricos
+            if (!/^\d{8}$/.test(cep)) {
+                div.innerHTML = '<p class="error">Por favor, insira um CEP válido (8 dígitos).</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+
+                if (data.erro) {
+                    div.innerHTML = '<p class="error">CEP não encontrado.</p>';
+                } else {
+                    div.innerHTML = `
+                        <strong>Resultados:</strong> <br>
+                        CEP: ${data.cep} <br>
+                        Logradouro: ${data.logradouro} <br>
+                        Bairro: ${data.bairro} <br>
+                        Cidade: ${data.localidade} <br>
+                        Estado: ${data.uf}
+                    `;
+                }
+            } catch (error) {
+                div.innerHTML = '<p class="error">Ocorreu um erro ao buscar os dados. Tente novamente mais tarde.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Fundo preto para o efeito Matrix */
+            color: #00ff00; /* Texto verde */
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff00; /* Verde de Matrix para o título */
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #00ff00; /* Bordas verdes */
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #00ff00; /* Borda verde */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo semi-transparente */
+            color: #fff; /* Texto branco dentro do input */
+        }
+        input[type="text"]:focus {
+            border-color: #00cc00; /* Verde mais escuro ao focar */
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #00cc00; /* Verde para o botão */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #009900; /* Verde mais escuro ao passar o mouse */
+        }
+        #myDiv {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #00ff00; /* Bordas verdes */
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo semi-transparente para resultados */
+            color: #fff;
+        }
+        .error {
+            color: red;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar Endereço por CEP</h1>
+        <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="8">
+        <input type="text" id="ruaInput" placeholder="Nome da Rua">
+        <input type="text" id="numeroInput" placeholder="Número">
+        <input type="text" id="bairroInput" placeholder="Bairro">
+        <input type="text" id="cidadeInput" placeholder="Cidade">
+        <button onclick="myFunction()">Buscar</button>
+        <div id="myDiv"></div>
+    </div>
+
+    <script>
+        async function myFunction() {
+            const cep = document.getElementById("cepInput").value;
+            const rua = document.getElementById("ruaInput").value;
+            const numero = document.getElementById("numeroInput").value;
+            const bairro = document.getElementById("bairroInput").value;
+            const cidade = document.getElementById("cidadeInput").value;
+            const div = document.getElementById("myDiv");
+            div.innerHTML = ''; // Limpa a div antes de mostrar os resultados
+            
+            // Valida se o CEP tem 8 dígitos numéricos
+            if (!/^\d{8}$/.test(cep)) {
+                div.innerHTML = '<p class="error">Por favor, insira um CEP válido (8 dígitos).</p>';
+                return;
+            }
+
+            try {
+                const
+
+Claro! Vamos formatar os resultados da busca de CEP em uma tabela que se assemelha a uma tabela de Word ou Excel. Abaixo está o código atualizado, que usa uma tabela HTML para apresentar as informações do endereço de maneira organizada.
+
+### Código HTML com Tabela Estilizada
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Fundo preto para o efeito Matrix */
+            color: #00ff00; /* Texto verde */
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff00; /* Verde de Matrix para o título */
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #00ff00; /* Bordas verdes */
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #00ff00; /* Borda verde */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo semi-transparente */
+            color: #fff; /* Texto branco dentro do input */
+        }
+        input[type="text"]:focus {
+            border-color: #00cc00; /* Verde mais escuro ao focar */
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #00cc00; /* Verde para o botão */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #009900; /* Verde mais escuro ao passar o mouse */
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        .result-table th,
+        .result-table td {
+            border: 1px solid #00ff00; /* Bordas verdes */
+            padding: 10px;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: rgba(0, 255, 0, 0.3); /* Verde claro para o cabeçalho */
+        }
+        .result-table tr:nth-child(even) {
+            background-color: rgba(0, 255, 0, 0.1); /* Verde muito claro para linhas pares */
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar Endereço por CEP</h1>
+        <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="8">
+        <input type="text" id="ruaInput" placeholder="Nome da Rua">
+        <input type="text" id="numeroInput" placeholder="Número">
+        <input type="text" id="bairroInput" placeholder="Bairro">
+        <input type="text" id="cidadeInput" placeholder="Cidade">
+        <button onclick="myFunction()">Buscar</button>
+        <div id="myDiv"></div>
+    </div>
+
+    <script>
+        async function myFunction() {
+            const cep = document.getElementById("cepInput").value;
+            const rua = document.getElementById("ruaInput").value;
+            const numero = document.getElementById("numeroInput").value;
+            const bairro = document.getElementById("bairroInput").value;
+            const cidade = document.getElementById("cidadeInput").value;
+            const div = document.getElementById("myDiv");
+            div.innerHTML = ''; // Limpa a div antes de mostrar os resultados
+            
+            // Valida se o CEP tem 8 dígitos numéricos
+            if (!/^\d{8}$/.test(cep)) {
+                div.innerHTML = '<p class="error">
+                    Claro! Vamos deixar o fundo da tela branco e criar uma tabela que apresenta as informações linha por linha. Abaixo está o código atualizado, com configurações para uma estética limpa e organizado.
+
+### Código HTML com Tabela em Branco
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de CEP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff; /* Fundo branco */
+            color: #333; /* Texto escuro para melhor visibilidade */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50; /* Cor verde para o título */
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #4CAF50; /* Bordas verdes */
+            border-radius: 10px;
+            background-color: #f9f9f9; /* Fundo claro para a container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #4CAF50; /* Borda verde */
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus {
+            border-color: #3e8e41; /* Verde mais escuro ao focar */
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50; /* Verde para o botão */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049; /* Verde escuro ao passar o mouse */
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        .result-table th,
+        .result-table td {
+            border: 1px solid #4CAF50; /* Bordas verdes */
+            padding: 10px;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #4CAF50; /* Verde para o cabeçalho */
+            color: white; /* Texto branco no cabeçalho */
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buscar Endereço por CEP</h1>
+        <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="8">
+        <input type="text" id="ruaInput" placeholder="Nome da Rua">
+        <input type="text" id="numeroInput" placeholder="Número">
+        <input type="text" id="bairroInput" placeholder="Bairro">
+        <input type="text" id="cidadeInput" placeholder="Cidade">
+        <button onclick="myFunction()">Buscar</button>
+        <div id="myDiv"></div>
+    </div>
+
+    <script>
+        async function myFunction() {
+            const cep = document.getElementById("cepInput").value;
+            const rua = document.getElementById("ruaInput").value;
+            const numero = document.getElementById("numeroInput").value;
+            const bairro = document.getElementById("bairroInput").value;
+            const cidade = document.getElementById("cidadeInput").value;
+            const div = document.getElementById("myDiv");
+            div.innerHTML = ''; // Limpa a div antes de mostrar os resultados
+            
+            // Valida se o CEP tem 8 dígitos numéricos
+            if (!/^\d{8}$/.test(cep)) {
+                div.innerHTML = '<p class="error">Por favor, insira um CEP válido (8 dígitos).</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+
+                if (data.erro) {
+                    div.innerHTML = '<p class="error">CEP não encontrado.</p>';
+                } else {
+                    // Cria a tabela para mostrar os resultados
+                    let table = `
+                    <table class="result-table">
+                        <tr>
+                            <th>Campo</th>
+                            <th>Inform
