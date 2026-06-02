@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Plataforma</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    height:100vh;
+    background: url("https://images.unsplash.com/photo-1524492449090-1a065b4d6c45?auto=format&fit=crop&w=1400&q=80")
+    no-repeat center center/cover;
+}
+
+.overlay{
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    background:white;
+    width:350px;
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#c8102e;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#a10d26;
+}
+
+#home{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <!-- LOGIN -->
+    <div class="box" id="login">
+        <h2>Acesso ao Sistema</h2>
+
+        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="password" id="senha" placeholder="Senha">
+
+        <button onclick="login()">Entrar</button>
+    </div>
+
+    <!-- HOME -->
+    <div class="box" id="home">
+        <h2>Bem-vindo!</h2>
+        <p>Login realizado com sucesso.</p>
+        <button onclick="logout()">Sair</button>
+    </div>
+
+</div>
+
+<script>
+function login(){
+    let usuario = document.getElementById("usuario").value.trim().toLowerCase();
+    let senha = document.getElementById("senha").value.trim();
+
+    if(usuario === "flavio" && senha === "1"){
+        document.getElementById("login").style.display = "none";
+        document.getElementById("home").style.display = "block";
+    } else {
+        alert("Usuário ou senha incorretos");
+    }
+}
+
+function logout(){
+    document.getElementById("home").style.display = "none";
+    document.getElementById("login").style.display = "block";
+}
+</script>
+
+</body>
+</html>
